@@ -1,19 +1,31 @@
 name: Docker Build
+
+# Déclenchement sur un tag de version
 on:
   push:
     tags:
       - 'v*.*.*'
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v2
+      # 1. Récupérer le code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Login sur GitHub Container Registry avec PAT
+      - name: Login to GHCR
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@v4
+          password: ${{ secrets.GHCR_PAT }}
+
+      # 3. Build et push de l'image Docker
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
         with:
           context: .
           push: true
