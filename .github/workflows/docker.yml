@@ -3,12 +3,11 @@ name: Docker Build
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*.*.*'  # déclenche uniquement sur les tags
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,4 +24,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.ref_name != '' && github.ref_name || github.ref | replace('refs/tags/', '') }}
+          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.ref_name }}

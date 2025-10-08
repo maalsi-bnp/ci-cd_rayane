@@ -1,4 +1,5 @@
 name: Deploy
+
 on:
   workflow_dispatch:
     inputs:
@@ -6,9 +7,11 @@ on:
         description: 'Version'
         required: true
         default: 'v1.0.0'
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - run: echo "Déploiement de l'image ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.event.inputs.version }}"
+      - run: echo "Déploiement de l'image ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.event.inputs.version }} sur production..."
+      - run: echo "Secret APP_SECRET : ${{ secrets.APP_SECRET }}"
